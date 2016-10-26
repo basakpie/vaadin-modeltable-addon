@@ -46,10 +46,11 @@ public class ItemField implements Serializable {
     //...getter, setter
 }
 
-ItemField itemField = itemFieldMap.get(dataIndex);
+ItemField itemField = //...;
 
 ModelTable<ItemField> modelTable = new ModelTable<>(ItemField.class);
 modelTable.setTitleCaption("Direction.RIGHT [ ColumnSize: " + 3 + "]");
+// modelTable.setToolbarVisible(false);
 
 modelTable.setItemDirection(ModelTable.Direction.RIGHT, 3);
 // modelTable.setItemDirection(ModelTable.Direction.BOTTOM, 3);
