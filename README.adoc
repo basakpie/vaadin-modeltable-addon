@@ -1,0 +1,105 @@
+=  ModelTable Add-on for Vaadin7
+
+ModelTable is a UI component add-on for Vaadin.
+
+== ModelTable Maven
+
+[source,xml,indent=0]
+----
+<dependency>
+	<groupId>com.vaadin.addon</groupId>
+	<artifactId>modeltable</artifactId>
+	<version>${project.version}</version>
+</dependency>
+
+<repository>
+   <id>vaadin-addons</id>
+   <url>http://maven.vaadin.com/vaadin-addons</url>
+</repository>
+----
+
+== ModelTable Example Code
+
+image::data/screenshot/modeltable.png[]
+
+=== step1. My project add modeltable.scss
+[source,css,indent=0]
+----
+@import "demo.scss";
+@import "addons.scss";
+
+@import "../../../VAADIN/addons/modeltable/modeltable.scss";
+
+.demo {
+  @include addons;
+  @include demo;
+  @include modeltable;
+}
+----
+
+=== stpe2. Create a ModelTable 
+[source,java,indent=0]
+----
+public class ItemField implements Serializable {
+    private String field01;
+    private String field02;
+    //...getter, setter
+}
+
+ItemField itemField = itemFieldMap.get(dataIndex);
+
+ModelTable<ItemField> modelTable = new ModelTable<>(ItemField.class);
+modelTable.setTitleCaption("Direction.RIGHT [ ColumnSize: " + 3 + "]");
+
+modelTable.setItemDirection(ModelTable.Direction.RIGHT, 3);
+// modelTable.setItemDirection(ModelTable.Direction.BOTTOM, 3);
+// modelTable.setVisibleColumns("field01", ....);
+// modelTable.setColumnHeaders("필드01", ....);
+
+modelTable.setItem(itemField);
+
+modelTable.addMenuItem("Edit", new MenuBar.Command() {
+   @Override
+   public void menuSelected(MenuBar.MenuItem menuItem) {
+      itemField.setField01("Edit :" + dataIndex);
+      modelTable.setItem(itemField);
+      Notification.show("Edit : " + dataIndex);
+   }
+});
+
+modelTable.addMenuItem("Refresh", new MenuBar.Command() {
+   @Override
+   public void menuSelected(MenuBar.MenuItem menuItem) {
+      Notification.show("Delete : " + dataIndex);
+      modelTable.removeItem();
+   }
+});
+----
+
+## Building and running demo
+
+[source,groovy,indent=0]
+----
+mvn clean install
+mvn -pl modeltable-demo jetty:run
+----
+
+Demo Server : http://127.0.0.1:8080
+
+== Building from source
+
+requires Java SE 1.7.0_79+
+
+requires Maven 3.3.9+
+
+requires Tomcat 8.0.36+
+
+requires Eclipse Mars.2 4.5.2+ 
+
+requires Vaadin Framework 7.7.3+
+
+== License & Author
+
+Add-on is distributed under Apache License 2.0. For license terms, see LICENSE.txt.
+
+

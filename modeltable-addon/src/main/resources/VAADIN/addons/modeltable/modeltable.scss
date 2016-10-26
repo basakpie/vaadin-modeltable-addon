@@ -1,0 +1,19 @@
+@mixin modeltable {
+
+  .v-label-modeltable {
+     border-left: 3px solid #00b4f0;
+     padding-left: 10px;
+  }
+
+  .v-table-modeltable .v-table-cell-content-key {
+    background-color: #fafafa;
+    background-image: -webkit-linear-gradient(top, #fafafa 2%, #efefef 98%);
+    background-image: linear, to bottom, #fafafa 2%, #efefef 98%;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: capitalize;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+}
