@@ -81,7 +81,7 @@ modelTable.addMenuItem("Refresh", new MenuBar.Command() {
 [source,groovy,indent=0]
 ----
 mvn clean install
-mvn -pl modeltable-demo jetty:run
+mvn -pl modeltable-demo spring-boot:run
 ----
 
 Demo Server : http://127.0.0.1:8080
