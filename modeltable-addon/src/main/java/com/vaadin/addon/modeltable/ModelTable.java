@@ -3,10 +3,18 @@ package com.vaadin.addon.modeltable;
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
+import com.vaadin.data.util.converter.Converter;
+import com.vaadin.data.util.converter.ConverterUtil;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Resource;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
+import com.vaadin.ui.renderers.NumberRenderer;
 import com.vaadin.ui.themes.ValoTheme;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by gmind on 2016-10-20.
@@ -202,7 +210,7 @@ public class ModelTable<T> extends VerticalLayout {
 
                     Property<Object> property = sourceItem.getItemProperty(column);
                     newRow.getItemProperty("key_"+j).setValue(header);
-                    newRow.getItemProperty("value_"+j).setValue(String.valueOf(property.getValue()));
+                    newRow.getItemProperty("value_"+j).setValue(formatPropertyValue(column, property));
                 }
             }
 
@@ -215,6 +223,31 @@ public class ModelTable<T> extends VerticalLayout {
             pageLength++;
         }
         targetTable.setPageLength(pageLength);
+    }
+
+    public void setTableConverter(Object propertyId, Converter<String, ?> converter) {
+        sourceTable.setConverter(propertyId, converter);
+    }
+
+    private String formatPropertyValue(Object colId, Property<Object> property) {
+        Converter<String, Object> converter = sourceTable.getConverter(colId);
+        if (converter==null) {
+            converter = (Converter) ConverterUtil.getConverter(String.class, property.getType(), getSession());
+        }
+        Object value = property.getValue();
+        if (converter != null) {
+            return converter.convertToPresentation(value, String.class, getLocale());
+        }
+        return (null != value) ? value.toString() : "";
+    }
+
+    protected VaadinSession getSession() {
+        UI uI = getUI();
+        if (uI == null) {
+            return null;
+        } else {
+            return uI.getSession();
+        }
     }
 
     private int rowMaxSize() {
@@ -268,5 +301,6 @@ public class ModelTable<T> extends VerticalLayout {
         RIGHT,
         BOTTOM
     }
+
 
 }

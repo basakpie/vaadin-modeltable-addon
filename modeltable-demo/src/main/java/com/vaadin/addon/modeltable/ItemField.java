@@ -1,6 +1,7 @@
 package com.vaadin.addon.modeltable;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by gmind on 2016-10-21.
@@ -10,11 +11,11 @@ public class ItemField implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String field01;
-    private String field02;
-    private String field03;
-    private String field04;
-    private String field05;
-    private String field06;
+    private Integer field02;
+    private Long field03;
+    private Float field04;
+    private Double field05;
+    private Date field06;
     private String field07;
     private String field08;
     private String field09;
@@ -34,43 +35,43 @@ public class ItemField implements Serializable {
         this.field01 = field01;
     }
 
-    public String getField02() {
+    public Integer getField02() {
         return field02;
     }
 
-    public void setField02(String field02) {
+    public void setField02(Integer field02) {
         this.field02 = field02;
     }
 
-    public String getField03() {
+    public Long getField03() {
         return field03;
     }
 
-    public void setField03(String field03) {
+    public void setField03(Long field03) {
         this.field03 = field03;
     }
 
-    public String getField04() {
+    public Float getField04() {
         return field04;
     }
 
-    public void setField04(String field04) {
+    public void setField04(Float field04) {
         this.field04 = field04;
     }
 
-    public String getField05() {
+    public Double getField05() {
         return field05;
     }
 
-    public void setField05(String field05) {
+    public void setField05(Double field05) {
         this.field05 = field05;
     }
 
-    public String getField06() {
+    public Date getField06() {
         return field06;
     }
 
-    public void setField06(String field06) {
+    public void setField06(Date field06) {
         this.field06 = field06;
     }
 
