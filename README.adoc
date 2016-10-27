@@ -46,7 +46,7 @@ public class Item implements Serializable {
     //...getter, setter
 }
 
-ItemField item = //...;
+Item item = //...;
 
 ModelTable<Item> modelTable = new ModelTable<>(Item.class);
 modelTable.setTitleCaption("Direction.RIGHT [ ColumnSize: " + 3 + "]");
