@@ -5,7 +5,7 @@
 	<groupId>com.vaadin.addon</groupId>
 	<artifactId>modeltable-root</artifactId>
 	<packaging>pom</packaging>
-	<version>0.0.4</version>
+	<version>0.0.5</version>
 	<name>ModelTable Add-on Root Project</name>
 
 	<modules>

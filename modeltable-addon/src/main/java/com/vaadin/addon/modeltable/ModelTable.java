@@ -17,8 +17,10 @@ import com.vaadin.ui.themes.ValoTheme;
 public class ModelTable<T> extends VerticalLayout {
 
 	private static final long serialVersionUID = 1L;
-	
-	private int columnSize;
+
+    private static int prevStyleHashCode;
+
+    private int columnSize;
     private int rowSize;
 
     private Direction columnDirection;
@@ -48,6 +50,36 @@ public class ModelTable<T> extends VerticalLayout {
         this.sourceTable.setContainerDataSource(new BeanItemContainer<T>(beanType));
         Component component = buildContent();
         addComponent(component);
+    }
+
+    protected void setStyles() {
+        Page page = Page.getCurrent();
+        if(page==null) {
+            return;
+        }
+        Page.Styles styles = page.getStyles();
+        if(styles==null) {
+            return;
+        }
+        if(prevStyleHashCode==styles.hashCode()) {
+            return;
+        }
+        prevStyleHashCode = styles.hashCode();
+        styles.add(".v-label-modeltable {\n" +
+                "     border-left: 3px solid #00b4f0;\n" +
+                "     padding-left: 10px;\n" +
+                "}\n" +
+                "\n" +
+                ".v-table-modeltable .v-table-cell-content-key {\n" +
+                "    background-color: #fafafa;\n" +
+                "    background-image: -webkit-linear-gradient(top, #fafafa 2%, #efefef 98%);\n" +
+                "    background-image: linear, to bottom, #fafafa 2%, #efefef 98%;\n" +
+                "    white-space: nowrap;\n" +
+                "    font-size: 14px;\n" +
+                "    font-weight: bold;\n" +
+                "    text-transform: capitalize;\n" +
+                "    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);\n" +
+                "}");
     }
 
     private Component buildContent() {
@@ -161,10 +193,15 @@ public class ModelTable<T> extends VerticalLayout {
         }
     }
 
-    private void refreshRendered() {
+    protected void refreshRendered() {
         if(sourceTable.firstItemId()==null) {
             return;
         }
+
+        if(rowSize==0 && columnSize==0) {
+            throw new IllegalArgumentException("rowsize/columnsize must not be less than zero!");
+        }
+
         propertyTrait();
         itemTrait();
     }
@@ -237,37 +274,14 @@ public class ModelTable<T> extends VerticalLayout {
         return (null != value) ? value.toString() : "";
     }
 
-    protected void setStyles() {
-        UI uI = getUI();
-        if (uI == null) {
-            return;
-        }
-        Page.Styles styles = Page.getCurrent().getStyles();
-        styles.add(".v-label-modeltable {\n" +
-                    "     border-left: 3px solid #00b4f0;\n" +
-                    "     padding-left: 10px;\n" +
-                    "}\n" +
-                    "\n" +
-                    ".v-table-modeltable .v-table-cell-content-key {\n" +
-                    "    background-color: #fafafa;\n" +
-                    "    background-image: -webkit-linear-gradient(top, #fafafa 2%, #efefef 98%);\n" +
-                    "    background-image: linear, to bottom, #fafafa 2%, #efefef 98%;\n" +
-                    "    white-space: nowrap;\n" +
-                    "    font-size: 14px;\n" +
-                    "    font-weight: bold;\n" +
-                    "    text-transform: capitalize;\n" +
-                    "    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);\n" +
-                    "}");
-    }
-
-    private int rowMaxSize() {
+    protected int rowMaxSize() {
         if(columnDirection==Direction.BOTTOM) {
             return rowSize;
         }
         return getVisibleColumns().length;
     }
 
-    private int columnMaxSize() {
+    protected int columnMaxSize() {
         if(columnDirection==Direction.RIGHT) {
             return columnSize;
         }
@@ -277,6 +291,8 @@ public class ModelTable<T> extends VerticalLayout {
 
     private void propertyTrait() {
         int columnMaxSize = columnMaxSize();
+
+        targetTable.setContainerDataSource(null);
 
         for(int id=0; id < columnMaxSize; id++) {
             targetTable.addContainerProperty("key_"+id, Object.class, null);
@@ -311,6 +327,14 @@ public class ModelTable<T> extends VerticalLayout {
     public enum Direction {
         RIGHT,
         BOTTOM
+    }
+
+    protected Table sourceTable() {
+        return this.sourceTable;
+    }
+
+    protected Table targetTable() {
+        return this.targetTable;
     }
 
 
