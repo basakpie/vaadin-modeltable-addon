@@ -6,15 +6,10 @@ import com.vaadin.data.util.BeanItemContainer;
 import com.vaadin.data.util.converter.Converter;
 import com.vaadin.data.util.converter.ConverterUtil;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
-import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.*;
-import com.vaadin.ui.renderers.NumberRenderer;
 import com.vaadin.ui.themes.ValoTheme;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by gmind on 2016-10-20.
@@ -43,6 +38,7 @@ public class ModelTable<T> extends VerticalLayout {
     }
 
     public ModelTable(String caption, Class<? super T> beanType) {
+        setStyles();
         this.title = new Label(caption);
         this.title.addStyleName("modeltable");
         this.columnDirection = Direction.RIGHT;
@@ -241,13 +237,27 @@ public class ModelTable<T> extends VerticalLayout {
         return (null != value) ? value.toString() : "";
     }
 
-    protected VaadinSession getSession() {
+    protected void setStyles() {
         UI uI = getUI();
         if (uI == null) {
-            return null;
-        } else {
-            return uI.getSession();
+            return;
         }
+        Page.Styles styles = Page.getCurrent().getStyles();
+        styles.add(".v-label-modeltable {\n" +
+                    "     border-left: 3px solid #00b4f0;\n" +
+                    "     padding-left: 10px;\n" +
+                    "}\n" +
+                    "\n" +
+                    ".v-table-modeltable .v-table-cell-content-key {\n" +
+                    "    background-color: #fafafa;\n" +
+                    "    background-image: -webkit-linear-gradient(top, #fafafa 2%, #efefef 98%);\n" +
+                    "    background-image: linear, to bottom, #fafafa 2%, #efefef 98%;\n" +
+                    "    white-space: nowrap;\n" +
+                    "    font-size: 14px;\n" +
+                    "    font-weight: bold;\n" +
+                    "    text-transform: capitalize;\n" +
+                    "    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);\n" +
+                    "}");
     }
 
     private int rowMaxSize() {

@@ -22,27 +22,10 @@ ModelTable is a UI component add-on for Vaadin.
 
 image::data/screenshot/modeltable.png[]
 
-=== step1. My project add modeltable.scss
-[source,css,indent=0]
-----
-@import "demo.scss";
-@import "addons.scss";
-
-@import "../../../VAADIN/addons/modeltable/modeltable.scss";
-
-.demo {
-  @include addons;
-  @include demo;
-  @include modeltable;
-}
-----
-
-=== stpe2. Create a ModelTable 
 [source,java,indent=0]
 ----
 public class Item implements Serializable {
     private String field01;
-    private Integer field02;
     //...getter, setter
 }
 
@@ -50,22 +33,11 @@ Item item = //...;
 
 ModelTable<Item> modelTable = new ModelTable<>(Item.class);
 modelTable.setTitleCaption("Direction.RIGHT [ ColumnSize: " + 3 + "]");
-// modelTable.setToolbarVisible(false);
-
 modelTable.setItemDirection(ModelTable.Direction.RIGHT, 3);
-// modelTable.setItemDirection(ModelTable.Direction.BOTTOM, 3);
-// modelTable.setVisibleColumns("field01", ....);
-// modelTable.setColumnHeaders("필드01", ....);
-
 modelTable.setItem(item);
 
 modelTable.addMenuItem("Edit", new MenuBar.Command() {
-   @Override
-   public void menuSelected(MenuBar.MenuItem menuItem) {
-      item.setField01("Edit :" + dataIndex);
-      modelTable.setItem(item);
-      Notification.show("Edit : " + dataIndex);
-   }
+  //...
 });
 ----
 

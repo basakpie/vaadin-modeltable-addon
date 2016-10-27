@@ -1,12 +1,7 @@
 @import "demo.scss";
 @import "addons.scss";
 
-// This file prefixes all rules with the theme name to avoid causing conflicts with other themes.
-// The actual styles should be defined in mytheme.scss
-@import "../../../VAADIN/addons/modeltable/modeltable.scss";
-
 .demo {
   @include addons;
   @include demo;
-  @include modeltable;
 }
