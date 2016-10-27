@@ -271,6 +271,7 @@ public class ModelTable<T> extends VerticalLayout {
         for(int id=0; id < columnMaxSize; id++) {
             targetTable.addContainerProperty("key_"+id, Object.class, null);
             targetTable.addContainerProperty("value_"+id, Object.class, null);
+            targetTable.setColumnAlignment("value_"+id, Table.Align.RIGHT);
         }
 
         targetTable.setCellStyleGenerator(new Table.CellStyleGenerator() {

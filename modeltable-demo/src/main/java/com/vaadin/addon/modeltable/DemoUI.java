@@ -19,26 +19,26 @@ import com.vaadin.ui.VerticalLayout;
 @SuppressWarnings("serial")
 public class DemoUI extends UI{
 
-	public static Map<Integer, ItemField> itemFieldMap = new HashMap<>();
+	public static Map<Integer, Item> itemFieldMap = new HashMap<>();
 
 	@Override
 	protected void init(VaadinRequest request){
 
-		ModelTable<ItemField> table1 = buildModelTable(0);
+		ModelTable<Item> table1 = buildModelTable(0);
 		table1.setTitleCaption("Direction.RIGHT [ ColumnSize: " + 3 + "]");
 		table1.setItemDirection(ModelTable.Direction.RIGHT, 3);
 
-		ModelTable<ItemField> table2 = buildModelTable(1);
+		ModelTable<Item> table2 = buildModelTable(1);
 		table2.setTitleCaption("Direction.BOTTOM [ RowSize: " + 3 + "]");
 		table2.setItemDirection(ModelTable.Direction.BOTTOM, 3);
 
-		ModelTable<ItemField> table3 = buildModelTable(2);
+		ModelTable<Item> table3 = buildModelTable(2);
 		table3.setTitleCaption("Direction.RIGHT [ ColumnSize: " + 3 + "]");
 		table3.setItemDirection(ModelTable.Direction.RIGHT, 3);
 		table3.setVisibleColumns("field01", "field02", "field03", "field04", "field05", "field07", "field08", "field14");
 		table3.setColumnHeaders("필드01", "필드02", "필드03", "필드04", "필드05", "필드07", "필드08", "필드14");
 
-		ModelTable<ItemField> table4 = buildModelTable(3);
+		ModelTable<Item> table4 = buildModelTable(3);
 		table4.setTitleCaption("Direction.BOTTOM [ RowSize: " + 3 + "]");
 		table4.setItemDirection(ModelTable.Direction.BOTTOM, 3);
 		table4.setVisibleColumns("field01", "field02", "field03", "field04", "field05", "field07", "field08", "field14");
@@ -55,15 +55,15 @@ public class DemoUI extends UI{
 		setHeightUndefined();
 	}
 
-	private ModelTable<ItemField> buildModelTable(int dataIndex) {
-		ItemField itemField = itemFieldMap.get(dataIndex);
-		ModelTable<ItemField> modelTable = new ModelTable<>(ItemField.class);
-		modelTable.setItem(itemField);
+	private ModelTable<Item> buildModelTable(int dataIndex) {
+		Item item = itemFieldMap.get(dataIndex);
+		ModelTable<Item> modelTable = new ModelTable<>(Item.class);
+		modelTable.setItem(item);
 		modelTable.addMenuItem("Edit", FontAwesome.EDIT, new MenuBar.Command() {
 			@Override
 			public void menuSelected(MenuBar.MenuItem menuItem) {
-				itemField.setField01("Edit :" + dataIndex);
-				modelTable.setItem(itemField);
+				item.setField01("Edit :" + dataIndex);
+				modelTable.setItem(item);
 				Notification.show("Edit : " + dataIndex);
 			}
 		});

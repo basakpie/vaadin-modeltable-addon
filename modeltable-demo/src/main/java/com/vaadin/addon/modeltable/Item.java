@@ -6,7 +6,7 @@ import java.util.Date;
 /**
  * Created by gmind on 2016-10-21.
  */
-public class ItemField implements Serializable {
+public class Item implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -16,7 +16,7 @@ public class ItemField implements Serializable {
     private Float field04;
     private Double field05;
     private Date field06;
-    private String field07;
+    private boolean field07;
     private String field08;
     private String field09;
     private String field10;
@@ -75,11 +75,11 @@ public class ItemField implements Serializable {
         this.field06 = field06;
     }
 
-    public String getField07() {
+    public boolean isField07() {
         return field07;
     }
 
-    public void setField07(String field07) {
+    public void setField07(boolean field07) {
         this.field07 = field07;
     }
 
