@@ -7,7 +7,12 @@ import com.vaadin.ui.UI;
  * Created by gmind on 2016-10-27.
  */
 public class TestUI extends UI {
-    @Override
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Override
     protected void init(VaadinRequest request) {
     }
 }

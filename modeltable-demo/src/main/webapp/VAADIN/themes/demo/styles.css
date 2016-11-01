@@ -12967,3 +12967,19 @@ div.v-layout.v-horizontal.v-widget {
 	width: 19px;
 	overflow: hidden;
 }
+
+.demo .v-table-modeltable .v-table-cell-content-red {
+	background-color: red;
+	white-space: nowrap;
+	color: white;
+	font-size: 14px;
+	text-transform: capitalize;
+}
+
+.demo .v-table-modeltable .v-table-cell-content-green {
+	background-color: green;
+	white-space: nowrap;
+	color: white;
+	font-size: 14px;
+	text-transform: capitalize;
+}

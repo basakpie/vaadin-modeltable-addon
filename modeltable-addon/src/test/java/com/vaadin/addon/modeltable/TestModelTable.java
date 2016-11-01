@@ -20,7 +20,12 @@ import java.lang.reflect.Field;
 @RunWith(MockitoJUnitRunner.class)
 public class TestModelTable extends ModelTable<TestItem> {
 
-    UI ui;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	UI ui;
 
     @Mock
     Page page;
@@ -145,6 +150,7 @@ public class TestModelTable extends ModelTable<TestItem> {
     }
 
     private void print(int rowSize, int columnSize) {
+        System.out.println("");
         for(int i=1; i <= rowSize; i++) {
             for(int j=0; j < columnSize; j++) {
                 String key = (String) targetTable().getContainerProperty(i, "key_"+j).getValue();

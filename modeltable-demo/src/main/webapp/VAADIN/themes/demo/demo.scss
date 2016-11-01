@@ -34,5 +34,19 @@
 @mixin demo {
   @include valo;
 
-  // Insert your own theme rules here
+  .v-table-modeltable .v-table-cell-content-red {
+    background-color: red;
+    white-space: nowrap;
+    color: white;
+    font-size: 14px;
+    text-transform: capitalize;
+  }
+
+  .v-table-modeltable .v-table-cell-content-green {
+    background-color: green;
+    white-space: nowrap;
+    color: white;
+    font-size: 14px;
+    text-transform: capitalize;
+  }
 }

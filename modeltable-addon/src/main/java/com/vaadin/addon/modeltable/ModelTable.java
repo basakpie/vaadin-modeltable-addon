@@ -1,5 +1,8 @@
 package com.vaadin.addon.modeltable;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.vaadin.data.Item;
 import com.vaadin.data.Property;
 import com.vaadin.data.util.BeanItemContainer;
@@ -8,7 +11,15 @@ import com.vaadin.data.util.converter.ConverterUtil;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
-import com.vaadin.ui.*;
+import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Component;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.Table;
+import com.vaadin.ui.TableFieldFactory;
+import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
 
 /**
@@ -18,7 +29,7 @@ public class ModelTable<T> extends VerticalLayout {
 
 	private static final long serialVersionUID = 1L;
 
-    private static int prevStyleHashCode;
+	private static int prevStyleHashCode;
 
     private int columnSize;
     private int rowSize;
@@ -35,12 +46,22 @@ public class ModelTable<T> extends VerticalLayout {
 
     private HorizontalLayout toolbar;
 
+    @SuppressWarnings("unused")
+	private final Map<String, Object> generatedColumnMap;
+
+    @SuppressWarnings("unused")
+	private Table.CellStyleGenerator cellStyleGenerator;
+
+    private final KeyPairMapper<Object, Object> keyPairMapper;
+
     public ModelTable(Class<? super T> beanType) {
         this("", beanType);
     }
 
     public ModelTable(String caption, Class<? super T> beanType) {
         setStyles();
+        this.keyPairMapper = new KeyPairMapper<>();
+        this.generatedColumnMap = new HashMap<>();
         this.title = new Label(caption);
         this.title.addStyleName("modeltable");
         this.columnDirection = Direction.RIGHT;
@@ -163,7 +184,7 @@ public class ModelTable<T> extends VerticalLayout {
 
     public void setItem(Object item) {
         sourceTable.removeAllItems();
-        sourceTable.addItem(item);
+        sourceTable.getContainerDataSource().addItem(item);
         if(isAttached()) {
             refreshRendered();
         }
@@ -216,8 +237,6 @@ public class ModelTable<T> extends VerticalLayout {
         String[] sourceHeaders = getColumnHeaders();
         Object[] sourceVisibleColumns = getVisibleColumns();
 
-        targetTable.removeAllItems();
-
         int rowMaxSize = rowMaxSize();
         int columnMaxSize = columnMaxSize();
 
@@ -234,16 +253,24 @@ public class ModelTable<T> extends VerticalLayout {
                 }
 
                 if(index < sourceVisibleColumns.length) {
-                    String header = sourceHeaders[index];
-                    Object column = sourceVisibleColumns[index];
+                    String headerName = sourceHeaders[index];
+                    Object columnId = sourceVisibleColumns[index];
 
-                    if(header.isEmpty()) {
-                        header = String.valueOf(column);
+                    if(headerName.isEmpty()) {
+                        headerName = String.valueOf(columnId);
                     }
 
-                    Property<Object> property = sourceItem.getItemProperty(column);
-                    newRow.getItemProperty("key_"+j).setValue(header);
-                    newRow.getItemProperty("value_"+j).setValue(formatPropertyValue(column, property));
+                    Property<Object> property = sourceItem.getItemProperty(columnId);
+
+                    if(property!=null) {
+                        Property<Object> propertyKey = newRow.getItemProperty("key_"+j);
+                        propertyKey.setValue(headerName);
+
+                        Property<Object> propertyValue = newRow.getItemProperty("value_"+j);
+                        propertyValue.setValue(formatPropertyValue(columnId, property));
+
+                        keyPairMapper.put(columnId, newItem+"-value_"+j);
+                    }
                 }
             }
 
@@ -262,10 +289,31 @@ public class ModelTable<T> extends VerticalLayout {
         sourceTable.setConverter(propertyId, converter);
     }
 
-    private String formatPropertyValue(Object colId, Property<Object> property) {
-        Converter<String, Object> converter = sourceTable.getConverter(colId);
+    public void addTableGneratedColumn(Object id, Table.ColumnGenerator generatedColumn) {
+        sourceTable.addGeneratedColumn(id, generatedColumn);
+    }
+
+    public void removeTableGneratedColumn(Object id) {
+        sourceTable.removeGeneratedColumn(id);
+    }
+
+    public void setTableCellStyleGenerator(Table.CellStyleGenerator cellStyleGenerator) {
+        sourceTable.setCellStyleGenerator(cellStyleGenerator);
+    }
+
+    public void getTableCellStyleGenerator() {
+        sourceTable.getCellStyleGenerator();
+    }
+
+    public void setTableEditable(boolean editable) {
+        targetTable.setEditable(true);
+    }
+
+	@SuppressWarnings({"unchecked", "rawtypes"})
+	public Object formatPropertyValue(Object columnId, Property property) {
+        Converter<String, Object> converter = sourceTable.getConverter(columnId);
         if (converter==null) {
-            converter = (Converter) ConverterUtil.getConverter(String.class, property.getType(), getSession());
+            converter = ConverterUtil.getConverter(String.class, property.getType(), getSession());
         }
         Object value = property.getValue();
         if (converter != null) {
@@ -289,14 +337,55 @@ public class ModelTable<T> extends VerticalLayout {
         return size;
     }
 
-    private void propertyTrait() {
+    @SuppressWarnings({"serial", "rawtypes"})
+	private void propertyTrait() {
         int columnMaxSize = columnMaxSize();
-
-        targetTable.setContainerDataSource(null);
 
         for(int id=0; id < columnMaxSize; id++) {
             targetTable.addContainerProperty("key_"+id, Object.class, null);
             targetTable.addContainerProperty("value_"+id, Object.class, null);
+            targetTable.removeGeneratedColumn("key_"+id);
+            targetTable.removeGeneratedColumn("value_"+id);
+
+            targetTable.addGeneratedColumn("key_"+id, new Table.ColumnGenerator() {
+                @Override
+                public Label generateCell(Table source, Object itemId, Object columnId) {
+                    Property property = source.getItem(itemId).getItemProperty(columnId);
+                    if(property==null) {
+                        return null;
+                    }
+
+                    if(property.getValue()==null) {
+                        return null;
+                    }
+
+                    String html = "&middot; "+  property.getValue();
+                    Label label = new Label(html, ContentMode.HTML);
+                    label.setSizeUndefined();
+
+                    return label;
+                }
+            });
+
+            targetTable.addGeneratedColumn("value_"+id, new Table.ColumnGenerator() {
+                @Override
+                public Object generateCell(Table source, Object itemId, Object columnId) {
+					Property property = source.getItem(itemId).getItemProperty(columnId);
+                    if(property==null) {
+                        return null;
+                    }
+                    Object sourceColumnId = keyPairMapper.getSourceColumnId(itemId+"-"+columnId);
+                    if(sourceColumnId!=null) {
+                        Table.ColumnGenerator columnGenerator = sourceTable.getColumnGenerator(sourceColumnId);
+                        if(columnGenerator!=null) {
+                            Object cell = columnGenerator.generateCell(sourceTable, sourceTable.firstItemId(), sourceColumnId);
+                            return cell;
+                        }
+                    }
+                    Object value = property.getValue();
+                    return value;
+                }
+            });
             targetTable.setColumnAlignment("value_"+id, Table.Align.RIGHT);
         }
 
@@ -309,9 +398,18 @@ public class ModelTable<T> extends VerticalLayout {
                 if(propertyId==null) {
                     return null;
                 }
+
                 String columnName = (String)propertyId;
                 if (columnName.startsWith("key_")) {
                     return "key";
+                }
+
+                Object sourceColumnId = keyPairMapper.getSourceColumnId(itemId+"-"+propertyId);
+                if(sourceColumnId!=null) {
+                    Table.CellStyleGenerator cellStyleGenerator = sourceTable.getCellStyleGenerator();
+                    if(cellStyleGenerator!=null) {
+                        return sourceTable.getCellStyleGenerator().getStyle(sourceTable, sourceTable.firstItemId(), sourceColumnId);
+                    }
                 }
                 return null;
             }
@@ -320,8 +418,8 @@ public class ModelTable<T> extends VerticalLayout {
 
     @Override
     public void attach() {
-        refreshRendered();
         super.attach();
+        refreshRendered();
     }
 
     public enum Direction {
