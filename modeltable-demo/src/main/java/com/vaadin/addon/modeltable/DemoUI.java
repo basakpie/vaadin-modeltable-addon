@@ -4,29 +4,28 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import com.vaadin.addon.onoffswitch.OnOffSwitch;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.Widgetset;
-import com.vaadin.data.Property;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
-import com.vaadin.shared.ui.label.ContentMode;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.spring.annotation.SpringUI;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
 import com.vaadin.ui.Notification;
-import com.vaadin.ui.Table;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
+
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.data.Property;
 
 @SpringUI
 @Theme("demo")
 @Title("ModelTable Add-on Demo")
-@Widgetset("com.vaadin.addon.modeltable.demo.DemoWidgetSet")
+@Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
 @SuppressWarnings("serial")
-public class DemoUI extends UI{
+public class DemoUI extends UI {
 
 	public static Map<Integer, Item> itemFieldMap = new HashMap<>();
 
@@ -39,7 +38,7 @@ public class DemoUI extends UI{
 		table1.addTableGneratedColumn("field01", new Table.ColumnGenerator() {
 			@SuppressWarnings("rawtypes")
 			@Override
-			public Component generateCell(Table source, Object itemId, Object columnId) {
+			public Label generateCell(Table source, Object itemId, Object columnId) {
 				Random random = new Random();
 				Property property = source.getContainerProperty(itemId, columnId);
 				String color = random.nextBoolean() == true ? "#2dd085" : "#f54993";
@@ -62,12 +61,9 @@ public class DemoUI extends UI{
 		table1.addTableGneratedColumn("field07", new Table.ColumnGenerator() {
 			@SuppressWarnings("rawtypes")
 			@Override
-			public Component generateCell(Table source, Object itemId, Object columnId) {
+			public Label generateCell(Table source, Object itemId, Object columnId) {
 				Property property = source.getContainerProperty(itemId, columnId);
-				OnOffSwitch onOffSwitch = new OnOffSwitch();
-				onOffSwitch.setEnabled(false);
-				onOffSwitch.setValue((Boolean) property.getValue());
-				return onOffSwitch;
+				return new Label(String.valueOf(property.getValue()));
 			}
 		});
 
@@ -90,7 +86,7 @@ public class DemoUI extends UI{
 		table2.addTableGneratedColumn("field03", new Table.ColumnGenerator() {
 			@SuppressWarnings("rawtypes")
 			@Override
-			public Component generateCell(Table source, Object itemId, Object columnId) {
+			public Label generateCell(Table source, Object itemId, Object columnId) {
 				Random random = new Random();
 
 				Property property = source.getContainerProperty(itemId, columnId);
@@ -112,12 +108,9 @@ public class DemoUI extends UI{
 		table2.addTableGneratedColumn("field07", new Table.ColumnGenerator() {
 			@SuppressWarnings("rawtypes")
 			@Override
-			public Component generateCell(Table source, Object itemId, Object columnId) {
+			public Label generateCell(Table source, Object itemId, Object columnId) {
 				Property property = source.getContainerProperty(itemId, columnId);
-				OnOffSwitch onOffSwitch = new OnOffSwitch();
-				onOffSwitch.setEnabled(false);
-				onOffSwitch.setValue((Boolean) property.getValue());
-				return onOffSwitch;
+				return new Label(String.valueOf(property.getValue()));
 			}
 		});
 
@@ -147,14 +140,12 @@ public class DemoUI extends UI{
 		table4.setColumnHeaders("필드01", "필드02", "필드03", "필드04", "필드05", "필드07", "필드08", "필드14");
 
 		VerticalLayout layout = new VerticalLayout();
-		layout.setWidth(100, Unit.PERCENTAGE);
-		layout.setSpacing(true);
 		layout.addComponent(table1);
 		layout.addComponent(table2);
 		layout.addComponent(table3);
 		layout.addComponent(table4);
+
 		setContent(layout);
-		setHeightUndefined();
 	}
 
 	private ModelTable<Item> buildModelTable(int dataIndex) {
@@ -169,7 +160,7 @@ public class DemoUI extends UI{
 				Notification.show("Edit : " + dataIndex);
 			}
 		});
-		modelTable.addMenuItem("Reload", FontAwesome.CIRCLE_O_NOTCH, new MenuBar.Command() {
+		modelTable.addMenuItem("Reload", FontAwesome.CIRCLE_THIN, new MenuBar.Command() {
 			@Override
 			public void menuSelected(MenuBar.MenuItem menuItem) {
 				Notification.show("Refresh[removeItem] : " + dataIndex);

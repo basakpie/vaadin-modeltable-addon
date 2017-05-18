@@ -3,7 +3,7 @@ package com.vaadin.addon.modeltable;
 import java.util.HashMap;
 
 /**
- * Created by gmind on 2016-10-31.
+ * Created by basakpie on 2017-05-18.
  */
 public class KeyPairMapper<KEY1, KEY2> {
 

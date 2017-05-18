@@ -1,29 +1,27 @@
 package com.vaadin.addon.modeltable;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import com.vaadin.data.Item;
-import com.vaadin.data.Property;
-import com.vaadin.data.util.BeanItemContainer;
-import com.vaadin.data.util.converter.Converter;
-import com.vaadin.data.util.converter.ConverterUtil;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
-import com.vaadin.shared.ui.label.ContentMode;
 import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Component;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
 import com.vaadin.ui.MenuBar;
-import com.vaadin.ui.Table;
-import com.vaadin.ui.TableFieldFactory;
-import com.vaadin.ui.VerticalLayout;
 import com.vaadin.ui.themes.ValoTheme;
+import com.vaadin.v7.data.Item;
+import com.vaadin.v7.data.Property;
+import com.vaadin.v7.data.util.BeanItemContainer;
+import com.vaadin.v7.data.util.converter.Converter;
+import com.vaadin.v7.data.util.converter.ConverterUtil;
+import com.vaadin.v7.shared.ui.label.ContentMode;
+import com.vaadin.v7.ui.HorizontalLayout;
+import com.vaadin.v7.ui.Label;
+import com.vaadin.v7.ui.Table;
+import com.vaadin.v7.ui.VerticalLayout;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * Created by gmind on 2016-10-20.
+ * Created by basakpie on 2017-05-18.
  */
 public class ModelTable<T> extends VerticalLayout {
 
@@ -69,7 +67,7 @@ public class ModelTable<T> extends VerticalLayout {
         this.targetTable = new Table();
         this.sourceTable = new Table();
         this.sourceTable.setContainerDataSource(new BeanItemContainer<T>(beanType));
-        Component component = buildContent();
+        VerticalLayout component = buildContent();
         addComponent(component);
     }
 
@@ -103,9 +101,9 @@ public class ModelTable<T> extends VerticalLayout {
                 "}");
     }
 
-    private Component buildContent() {
+    private VerticalLayout buildContent() {
         buildModelTable();
-        Component toolbar = createToolbar();
+        HorizontalLayout toolbar = createToolbar();
 
         VerticalLayout wrapper = new VerticalLayout();
         wrapper.setWidth(100, Unit.PERCENTAGE);
@@ -123,7 +121,7 @@ public class ModelTable<T> extends VerticalLayout {
         targetTable.addStyleName(ValoTheme.TABLE_SMALL);
     }
 
-    private Component createToolbar() {
+    private HorizontalLayout createToolbar() {
         title.addStyleName(ValoTheme.LABEL_H4);
         title.addStyleName(ValoTheme.LABEL_COLORED);
         title.addStyleName(ValoTheme.LABEL_NO_MARGIN);

@@ -15,14 +15,11 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.lang.reflect.Field;
 
 /**
- * Created by gmind on 2016-10-27.
+ * Created by basakpie on 2017-05-18.
  */
 @RunWith(MockitoJUnitRunner.class)
 public class TestModelTable extends ModelTable<TestItem> {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	UI ui;
@@ -53,7 +50,7 @@ public class TestModelTable extends ModelTable<TestItem> {
 
     private void initUi() {
         ui = new TestUI();
-        CurrentInstance.setInheritable(UI.class, ui);
+        CurrentInstance.set(UI.class, ui);
     }
 
     private void mockPage() throws NoSuchFieldException, IllegalAccessException {
