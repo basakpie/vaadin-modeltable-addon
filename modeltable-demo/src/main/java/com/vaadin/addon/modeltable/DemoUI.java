@@ -23,7 +23,7 @@ import com.vaadin.v7.data.Property;
 @SpringUI
 @Theme("demo")
 @Title("ModelTable Add-on Demo")
-@Widgetset("com.vaadin.v7.Vaadin7WidgetSet")
+@Widgetset("com.vaadin.addon.modeltable.DemoWidgetSet")
 @SuppressWarnings("serial")
 public class DemoUI extends UI {
 

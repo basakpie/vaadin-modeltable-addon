@@ -5,7 +5,7 @@
 	<groupId>com.vaadin.addon</groupId>
 	<artifactId>modeltable-demo</artifactId>
 	<packaging>war</packaging>
-	<version>8.0.6</version>
+	<version>8.0.7</version>
 	<name>Modeltable Add-on Demo</name>
 
 	<prerequisites>
@@ -89,6 +89,13 @@
 
 		<dependency>
 			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-compatibility-client</artifactId>
+			<version>${vaadin.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-client-compiled</artifactId>
 			<scope>provided</scope>
 		</dependency>
@@ -126,6 +133,7 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>1.5.3.RELEASE</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -156,7 +164,7 @@
 				<artifactId>vaadin-maven-plugin</artifactId>
 				<version>${vaadin.plugin.version}</version>
 				<configuration>
-					<extraJvmArgs>-Xmx512M -Xss1024k</extraJvmArgs>
+					<extraJvmArgs>-Xmx4096M -Xss1024k</extraJvmArgs>
 					<webappDirectory>${basedir}/src/main/webapp/VAADIN/widgetsets</webappDirectory>
 					<hostedWebapp>${basedir}/src/main/webapp/VAADIN/widgetsets</hostedWebapp>
 					<noServer>true</noServer>

@@ -3,7 +3,7 @@
 ModelTable is a UI component add-on for Vaadin.
 
 - 0.1.0 -> Vaadin 7.x
-- 8.0.6 -> Vaadin Compatibility Server 8.0.6 and newer
+- 8.0.7 -> Vaadin Compatibility Server 8.0.6 and newer
 
 == ModelTable Maven
 

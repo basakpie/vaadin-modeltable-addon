@@ -5,7 +5,7 @@
 	<groupId>com.vaadin.addon</groupId>
 	<artifactId>modeltable</artifactId>
 	<packaging>jar</packaging>
-	<version>8.0.6</version>
+	<version>8.0.7</version>
 	<name>ModelTable</name>
 
 	<prerequisites>
@@ -72,6 +72,13 @@
 
 		<dependency>
 			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-compatibility-client</artifactId>
+			<version>${vaadin.version}</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-compatibility-client-compiled</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>
@@ -123,7 +130,7 @@
 							<!-- Package format version - do not change -->
 							<Vaadin-Package-Version>1</Vaadin-Package-Version>
 							<Vaadin-License-Title>${Vaadin-License-Title}</Vaadin-License-Title>
-							<!-- <Vaadin-Widgetsets>com.vaadin.addon.pagination.WidgetSet</Vaadin-Widgetsets>  -->
+							<Vaadin-Widgetsets>com.vaadin.addon.modeltable.WidgetSet</Vaadin-Widgetsets>
 						</manifestEntries>
 					</archive>
 				</configuration>

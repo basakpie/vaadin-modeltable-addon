@@ -1,7 +1,6 @@
 package com.vaadin.addon.modeltable;
 
 import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.MenuBar;
@@ -57,7 +56,6 @@ public class ModelTable<T> extends VerticalLayout {
     }
 
     public ModelTable(String caption, Class<? super T> beanType) {
-        setStyles();
         this.keyPairMapper = new KeyPairMapper<>();
         this.generatedColumnMap = new HashMap<>();
         this.title = new Label(caption);
@@ -69,36 +67,6 @@ public class ModelTable<T> extends VerticalLayout {
         this.sourceTable.setContainerDataSource(new BeanItemContainer<T>(beanType));
         VerticalLayout component = buildContent();
         addComponent(component);
-    }
-
-    protected void setStyles() {
-        Page page = Page.getCurrent();
-        if(page==null) {
-            return;
-        }
-        Page.Styles styles = page.getStyles();
-        if(styles==null) {
-            return;
-        }
-        if(prevStyleHashCode==styles.hashCode()) {
-            return;
-        }
-        prevStyleHashCode = styles.hashCode();
-        styles.add(".v-label-modeltable {\n" +
-                "     border-left: 3px solid #00b4f0;\n" +
-                "     padding-left: 10px;\n" +
-                "}\n" +
-                "\n" +
-                ".v-table-modeltable .v-table-cell-content-key {\n" +
-                "    background-color: #fafafa;\n" +
-                "    background-image: -webkit-linear-gradient(top, #fafafa 2%, #efefef 98%);\n" +
-                "    background-image: linear, to bottom, #fafafa 2%, #efefef 98%;\n" +
-                "    white-space: nowrap;\n" +
-                "    font-size: 14px;\n" +
-                "    font-weight: bold;\n" +
-                "    text-transform: capitalize;\n" +
-                "    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.05);\n" +
-                "}");
     }
 
     private VerticalLayout buildContent() {
