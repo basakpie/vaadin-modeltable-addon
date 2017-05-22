@@ -84,7 +84,18 @@
 
 		<dependency>
 			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-server</artifactId>
+			<artifactId>vaadin-push</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-client-compiled</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-compatibility-server</artifactId>
+			<version>${vaadin.version}</version>
 		</dependency>
 
 		<dependency>
@@ -96,8 +107,14 @@
 
 		<dependency>
 			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-client-compiled</artifactId>
-			<scope>provided</scope>
+			<artifactId>vaadin-compatibility-client-compiled</artifactId>
+			<version>${vaadin.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.vaadin</groupId>
+			<artifactId>vaadin-compatibility-themes</artifactId>
+			<version>${vaadin.version}</version>
 		</dependency>
 
 		<dependency>
@@ -111,10 +128,16 @@
 			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-spring-boot-starter</artifactId>
 			<version>1.0.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jetty</artifactId>
 		</dependency>
 
 	</dependencies>
@@ -133,7 +156,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>1.5.3.RELEASE</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
