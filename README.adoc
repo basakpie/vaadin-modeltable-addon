@@ -46,10 +46,20 @@ modelTable.addMenuItem("Edit", new MenuBar.Command() {
 
 ## Building and running demo
 
+Linux/Mac
+
 [source,groovy,indent=0]
 ----
-mvn clean install
-mvn -pl modeltable-demo spring-boot:run
+sh mvnw clean install
+sh mvnw -pl modeltable-demo spring-boot:run
+----
+
+Windows
+
+[source,groovy,indent=0]
+----
+mvnw.cmd clean install
+mvnw.cmd -pl modeltable-demo spring-boot:run
 ----
 
 Demo Server : http://127.0.0.1:8080
