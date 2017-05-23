@@ -34,5 +34,9 @@
 
     <inherits name="com.vaadin.addon.modeltable.WidgetSet" />
 
+    
+
+    
+
     <inherits name="com.vaadin.v7.Vaadin7WidgetSet" />
 </module>

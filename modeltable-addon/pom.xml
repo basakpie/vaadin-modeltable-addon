@@ -79,12 +79,6 @@
 
 		<dependency>
 			<groupId>com.vaadin</groupId>
-			<artifactId>vaadin-compatibility-client-compiled</artifactId>
-			<version>${vaadin.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.vaadin</groupId>
 			<artifactId>vaadin-compatibility-themes</artifactId>
 			<version>${vaadin.version}</version>
 		</dependency>

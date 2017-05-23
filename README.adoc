@@ -9,16 +9,23 @@ ModelTable is a UI component add-on for Vaadin.
 
 [source,xml,indent=0]
 ----
+<repository>
+   <id>vaadin-addons</id>
+   <url>http://maven.vaadin.com/vaadin-addons</url>
+</repository>
+
 <dependency>
 	<groupId>com.vaadin.addon</groupId>
 	<artifactId>modeltable</artifactId>
 	<version>${project.version}</version>
 </dependency>
 
-<repository>
-   <id>vaadin-addons</id>
-   <url>http://maven.vaadin.com/vaadin-addons</url>
-</repository>
+<dependency>
+    <groupId>com.vaadin</groupId>
+    <artifactId>vaadin-compatibility-client</artifactId>
+    <version>${vaadin.version}</version>
+    <scope>provided</scope>
+</dependency>
 ----
 
 == ModelTable Example Code
